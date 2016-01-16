@@ -1,0 +1,8 @@
+
+//	ICONS
+//----------------------------------------------------------------------
+
+//	Icons
+@function icon-menu($color: $dark-grey) {
+	@return url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2245%22%20height%3D%2245%22%20viewBox%3D%220%200%2045%2045%22%3E%3Cg%20fill%3D%22#{color-encode($color)}%22%3E%3Cpath%20d%3D%22M11%2013h23v2H11zM11%2021h23v2H11zM11%2029h23v2H11z%22/%3E%3C/g%3E%3C/svg%3E');
+}

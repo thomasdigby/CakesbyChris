@@ -1,0 +1,47 @@
+//----------------------------------------------------------------------
+//	SETTINGS
+//	Global
+//----------------------------------------------------------------------
+
+//	Typography
+//-----------------------------------
+
+//	Type baseline
+$doc-font-size: 16; /* 16px */
+$doc-line-height: 1.25; /* 20px */
+
+//	Font stacks
+$base-font: Raleway, Arial, serif;
+
+
+
+
+//	Animation
+//-----------------------------------
+
+//	Transition
+$duration: 150ms;
+$easing: ease-out;
+
+
+
+
+//	Colors/Themes
+//-----------------------------------
+
+$dark-grey: #333;
+$mid-grey: #444444;
+$light-grey: #999;
+$lightest-grey: #efefef;
+
+$highlight: #a16414;
+
+
+
+//	Responsive
+//-----------------------------------
+
+//	Breakpoints (in px)
+$lap: 600;
+$nav: 700;
+$desk: 900;

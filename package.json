@@ -1,0 +1,22 @@
+{
+	"name": "CakesbyChris",
+	"version": "1.0.0",
+	"author": {
+		"name": "Thomas Digby",
+		"email": "thomasdigby1@gmail.com"
+	},
+	"description": "Cakes by Chris",
+	"devDependencies": {
+		"babel-core": "^6.4.0",
+		"babel-loader": "^6.2.1",
+		"babel-preset-es2015": "^6.3.13",
+		"concat-cli": "^4.0.0",
+		"node-sass": "^3.4.2",
+		"webpack": "^1.12.11"
+	},
+	"scripts": {
+		"build:js-head": "concat-cli -f ./js/vendor/loadJS.js -o ./js/dist/head.js",
+		"watch:js": "webpack ./js/master.js ./js/dist/global.js  --module-bind 'js=babel?presets[]=es2015' -w",
+		"watch:css": "node-sass --include-path ./css/project ./css/master.scss -o ./css/dist/ -w"
+	}
+}

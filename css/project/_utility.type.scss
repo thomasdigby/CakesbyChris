@@ -1,0 +1,46 @@
+//----------------------------------------------------------------------
+//	UTILITY
+//	Type
+//----------------------------------------------------------------------
+
+//	Text alignment
+//-----------------------------------
+
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
+
+
+
+
+//	Text case
+//-----------------------------------
+
+.text-upper {
+	text-transform: uppercase;
+}
+.text-lower {
+	text-transform: lowercase;
+}
+
+
+
+
+//	Text style
+//-----------------------------------
+
+.text-strong {
+	font-weight: bold;
+}
+.text-normal {
+	font-weight: normal;
+}
+.text-italic {
+	font-style: italic;
+}

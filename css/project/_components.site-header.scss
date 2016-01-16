@@ -1,0 +1,27 @@
+
+//	SITE HEADER
+//----------------------------------------------------------------------
+
+.site-header {
+	background-color: #fff;
+	flex: none;
+	position: fixed;
+	height: 66px;
+	width: 100%;
+	z-index: 10;
+}
+//	unfortunate, but necessary
+.site-header > .wrapper {
+	display: flex;
+	flex-direction: row;
+}
+.site-header__logo {
+	@extend %text-hidden;
+	align-self: flex-start;
+	background-image: url('/images/dist/logo.svg');
+	background-repeat: no-repeat;
+	background-position: center center;
+	display: block;
+	height: 100%;
+	width: 192px;
+}

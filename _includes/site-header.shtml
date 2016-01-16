@@ -1,0 +1,28 @@
+<header class="site-header">
+	<div class="wrapper">
+		<a class="site-header__logo" href="/">
+			Cakes by Chris
+		</a>
+		<button class="site-navigation__toggle js-offcanvas-toggle">Toggle yp</button>
+		<ul class="site-navigation js-offcanvas-panel">
+			<li class="site-navigation__list-item">
+				<a class="site-navigation__item" href="/">Home</a>
+			</li>
+			<li class="site-navigation__list-item">
+				<a class="site-navigation__item" href="/cakes/">Cakes</a>
+			</li>
+			<li class="navigation__list-item">
+				<a class="site-navigation__item" href="/about/">About</a>
+			</li>
+			<li class="navigation__list-item">
+				<a class="site-navigation__item" href="/guide/">Guide</a>
+			</li>
+			<li class="navigation__list-item">
+				<a class="site-navigation__item" href="/faq/">FAQ</a>
+			</li>
+			<li class="navigation__list-item">
+				<a class="site-navigation__item" href="/contact/">Contact</a>
+			</li>
+		</ul>
+	</div>
+</header>

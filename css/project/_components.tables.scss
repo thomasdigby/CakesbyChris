@@ -1,0 +1,24 @@
+
+//	CONTAINERS
+//----------------------------------------------------------------------
+
+table {
+	border-top: 2px solid $dark-grey;
+	text-align: left;
+	width: 100%;
+}
+th,
+td {
+	padding: 6px 2px;
+	font-weight: normal;
+	border-bottom: 1px solid $light-grey;
+}
+tbody tr:nth-child(odd) {
+	background-color: $lightest-grey;
+}
+th:first-child {
+	width: 20%;
+}
+thead tr:first-child th {
+	font-weight: bold;
+}

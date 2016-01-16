@@ -1,0 +1,27 @@
+
+//	MODULE
+//----------------------------------------------------------------------
+
+.module {
+	color: #fff;
+	display: block;
+	text-decoration: none;
+}
+.module__figure {
+}
+.module__caption {
+	background-color: $dark-grey;
+	font-weight: bold;
+	min-height: 56px;
+	padding: 20px;
+	text-align: center;
+	word-break: break-word;
+}
+
+.list-grid--1-2 .module__caption {
+	@include mq($lap) {
+		min-height: 80px;
+		font-size: 22px;
+		padding: 32px 20px;
+	}
+}

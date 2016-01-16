@@ -1,0 +1,51 @@
+//----------------------------------------------------------------------
+//	UTILITY
+//	Display
+//----------------------------------------------------------------------
+
+//	General
+//-----------------------------------
+
+//	Hide only visually, but have it available for screenreaders
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+//	Hide from both screenreaders and browsers
+.display-none {
+	display: none !important;
+	visibility: hidden;
+}
+
+
+
+
+//	Responsive
+//-----------------------------------
+
+@include mq($lap - 1, max) {
+	.display-palm--none {
+		display: none;
+	}
+}
+
+@include mq($lap) {
+	@include mq($desk - 1, max) {
+		.display-lap--none {
+			display: none;
+		}
+	}
+}
+
+@include mq($desk) {
+	.display-desk--none {
+		display: none;
+	}
+}

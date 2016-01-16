@@ -1,0 +1,38 @@
+
+//	CONTAINERS
+//----------------------------------------------------------------------
+
+.site {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+.site-main {
+	flex: 1 0 auto;
+	padding-top: 66px;
+}
+
+//	Sections
+.section {
+	background-position: center center;
+	background-size: cover;
+	min-height: 350px;
+	padding: 60px 0;
+}
+.section--large {
+	min-height: 710px;
+}
+//	centered
+.section--centered {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	padding: 0 30px;
+}
+.section--centered .text-medium {
+	margin-bottom: 0;
+}
+.section--light {
+	background-color: #fff;
+}

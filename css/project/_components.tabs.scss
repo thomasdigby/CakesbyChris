@@ -1,0 +1,14 @@
+/* Container */
+.fr-tabs {
+	position: relative;
+}
+
+/* Tablist */
+.fr-tabs__tablist {
+	margin: 50px 0 0;
+}
+
+/* Tabpanel */
+.fr-tabs__panel[aria-hidden="true"] {
+	display: none;
+}
