@@ -2,15 +2,14 @@
 //	SITE HEADER
 //----------------------------------------------------------------------
 
-.site-navigation {
-	height: 100%;
-	list-style: none;
+.site-navigation-container {
 	@include mq($nav - 1, max) {
 		background-color: #fff;
 		height: 100%;
 		right: 0;
 		max-width: 320px;
 		overflow: auto;
+		padding-top: 66px;
 		position: fixed;
 		top: 0;
 		transform: translateX(100%);
@@ -22,12 +21,25 @@
 			box-shadow: 0 0 30px 0 rgba($dark-grey, 0.2);
 			transform: translateX(0);
 		}
+		&:focus {
+			outline: none;
+		}
+	}
+	@include mq($nav) {
+		visibility: visible !important;
 	}
 	@include mq($nav) {
 		align-self: flex-end;
 		display: flex;
 		flex-direction: row;
 		margin-left: auto;
+	}
+}
+.site-navigation {
+	height: 100%;
+	list-style: none;
+	@include mq($nav) {
+		display: flex;
 	}
 	&:focus {
 		outline: none;
@@ -51,14 +63,9 @@
 		line-height: 66px;
 	}
 }
-.site-navigation__list-item:first-child {
-	@include mq($nav - 1, max) {
-		padding-top: 30px;
-	}
-}
-.site-navigation__toggle {
+.site-navigation__open,
+.site-navigation__close {
 	@extend %text-hidden;
-	background-image: icon-menu();
 	background-repeat: no-repeat;
 	background-position: center center;
 	position: absolute;
@@ -72,4 +79,10 @@
 	&:focus {
 		outline: none;
 	}
+}
+.site-navigation__open {
+	background-image: icon-menu();
+}
+.site-navigation__close {
+	background-image: icon-close();
 }

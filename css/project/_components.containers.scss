@@ -18,9 +18,15 @@
 	background-size: cover;
 	min-height: 350px;
 	padding: 60px 0;
+	&:focus {
+		outline: none;
+	}
 }
 .section--large {
-	min-height: 710px;
+	color: #fff;
+	height: 710px;
+	max-height: 70vh;
+	padding-top: 15vh;
 }
 //	centered
 .section--centered {
@@ -28,7 +34,7 @@
 	display: flex;
 	justify-content: center;
 	text-align: center;
-	padding: 0 30px;
+	padding: 30px;
 }
 .section--centered .text-medium {
 	margin-bottom: 0;

@@ -17,11 +17,74 @@
 	text-align: center;
 	word-break: break-word;
 }
+.module img {
+	transition: opacity $duration $easing;
+	margin-bottom: 0;
+}
+.module:hover img,
+.module:focus img {
+	opacity: 0.6;
+}
 
 .list-grid--1-2 .module__caption {
 	@include mq($lap) {
 		min-height: 80px;
 		font-size: 22px;
 		padding: 32px 20px;
+	}
+}
+
+.module--theme-green {
+	background-color: $green;
+	& .module__caption {
+		background-color: $green;
+	}
+}
+.module--theme-blue {
+	background-color: $blue;
+	& .module__caption {
+		background-color: $blue;
+	}
+}
+.module--theme-turquoise {
+	background-color: $turquoise;
+	& .module__caption {
+		background-color: $turquoise;
+	}
+}
+.module--theme-purple {
+	background-color: $purple;
+	& .module__caption {
+		background-color: $purple;
+	}
+}
+.module--theme-red {
+	background-color: $red;
+	& .module__caption {
+		background-color: $red;
+	}
+}
+.module--theme-green-dark {
+	background-color: $green-dark;
+	& .module__caption {
+		background-color: $green-dark;
+	}
+}
+.module--theme-grey {
+	background-color: $grey;
+	& .module__caption {
+		background-color: $grey;
+	}
+}
+.module--theme-orange {
+	background-color: $orange;
+	& .module__caption {
+		background-color: $orange;
+	}
+}
+.module--theme-pink {
+	background-color: $pink;
+	& .module__caption {
+		background-color: $pink;
 	}
 }

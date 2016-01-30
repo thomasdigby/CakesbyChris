@@ -28,7 +28,7 @@
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: center;
 	list-style: none;
 	margin-left: -25px;
 }
@@ -57,12 +57,91 @@
 }
 .list-buttons__item {
 	@extend %text-hidden;
-	background-color: $highlight;
 	border-radius: 50%;
 	display: block;
-	height: 54px;
-	width: 54px;
+	height: 63px;
+	width: 63px;
 }
 .list-buttons__list-item:not(:last-child) {
 	margin-right: 12px;
+}
+.list-buttons__item {
+	background-repeat: no-repeat;
+	background-position: center center;
+	transition: background-color $duration $easing;
+	&:hover,
+	&:focus {
+		opacity: 0.5;
+	}
+	&.fr-tabs__tab--is-active {
+		background-color: $secondary;
+		outline: none;
+	}
+}
+.list-buttons__item--cake-slicer {
+	background-image: icon-cake-slicer();
+}
+.list-buttons__item--price-tag {
+	background-image: icon-price-tag();
+}
+.list-buttons__item--whisk {
+	background-image: icon-whisk();
+}
+.list-buttons__item--birthday-cake {
+	background-image: icon-birthday-cake();
+}
+.list-buttons__item--wedding-cake {
+	background-image: icon-wedding-cake();
+}
+.list-buttons__item--cupcake {
+	background-image: icon-cupcake();
+}
+.list-buttons__item--biscuit {
+	background-image: icon-biscuit();
+}
+
+
+//	Bordered
+.list-bordered {
+	@extend .text-default;
+	list-style: none;
+	margin-bottom: 30px;
+}
+.list-bordered__list-item {
+	border-top: 1px solid $mid-grey;
+	padding: 5px 0;
+}
+
+//	Social
+.list-social {
+	display: flex;
+	list-style: none;
+	justify-content: center;
+	margin-bottom: 1rem;
+}
+.list-social__list-item {
+	padding: 0 5px;
+}
+.list-social__item {
+	@extend %text-hidden;
+	background-color: #fff;
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-radius: 50%;
+	display: block;
+	height: 27px;
+	transition: opacity $duration $easing;
+	width: 27px;
+	&:hover,
+	&:focus {
+		opacity: 0.8;
+	}
+}
+.list-social__item--facebook {
+	background-image: icon-social-facebook($mid-grey);
+	background-size: 7px;
+}
+.list-social__item--instagram {
+	background-image: icon-social-instagram($mid-grey);
+	background-size: 13px;
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-// Move Array prototype to NodeList (allows for Array methods on NodeLists)
+// Set Array prototype on NodeList (allows for Array methods on NodeLists)
 // https://gist.github.com/paulirish/12fb951a8b893a454b32 (#gistcomment-1487315)
 Object.setPrototypeOf(NodeList.prototype, Array.prototype);
 
@@ -8,13 +8,13 @@ Object.setPrototypeOf(NodeList.prototype, Array.prototype);
  * @param {string} selector The selector to match for tab components
  * @param {object} options Object containing configuration overrides
  */
-const Frtabs = (selector = '.js-fr-tabs', {
+const Frtabs = function (selector = '.js-fr-tabs', {
 		tablistSelector: tablistSelector = '.fr-tabs__tablist',
 		activeTabClass: activeTabClass = 'fr-tabs__tab--is-active',
 		tabpanelSelector: tabpanelSelector = '.fr-tabs__panel',
 		activePanelClass: activePanelClass = 'fr-tabs__panel--is-active',
 		tabsReadyClass: tabsReadyClass = 'has-fr-tabs'
-	} = {}) => {
+	} = {}) {
 
 
 	// CONSTANTS
@@ -23,7 +23,7 @@ const Frtabs = (selector = '.js-fr-tabs', {
 
 
 	// SUPPORTS
-	if (!'querySelector' in document || !'addEventListener' in window || !docEl.classList) return;
+	if (!'querySelector' in doc || !'addEventListener' in window || !docEl.classList) return;
 
 
 	// SETUP
@@ -101,39 +101,37 @@ const Frtabs = (selector = '.js-fr-tabs', {
 
 	// EVENTS
 	function _eventTabClick (e) {
-		_showTab(e.target, true);
+		_showTab(e.target);
 		e.preventDefault(); // look into remove id/settimeout/reinstate id as an alternative to preventDefault
 	}
 
 	function _eventTabKeydown (e) {
-		// collect tab targets, and their parents' prev/next
+		// collect tab targets, and their parents' prev/next (or first/last - this is honkin dom traversing)
 		let currentTab = e.target;
-		let previousTabItem = e.target.parentNode.previousElementSibling;
-		let nextTabItem = e.target.parentNode.nextElementSibling;
-		let newTabItem;
+		let previousTabItem = currentTab.parentNode.previousElementSibling || currentTab.parentNode.parentNode.lastElementChild;
+		let nextTabItem = currentTab.parentNode.nextElementSibling || currentTab.parentNode.parentNode.firstElementChild;
 
-		// catch left and right arrow key events
+		// catch left/ and right arrow key events
+		// if new next/prev tab available, show it by passing tab anchor to _showTab method
 		switch (e.keyCode) {
 			case 37:
-				newTabItem = previousTabItem;
+			case 38:
+				_showTab(previousTabItem.querySelector('[role="tab"]'));
+				e.preventDefault();
 				break;
 			case 39:
-				newTabItem = nextTabItem;
+			case 40:
+				_showTab(nextTabItem.querySelector('[role="tab"]'));
+				e.preventDefault();
 				break;
 			default:
-				newTabItem = false
 				break;
-		}
-
-		// if new next/prev tab available, show it by passing tab anchor to _showTab method
-		if (newTabItem) {
-			_showTab(newTabItem.querySelector('[role="tab"]'), true);
 		}
 	}
 
 
 	// ACTIONS
-	function _showTab (target, giveFocus) {
+	function _showTab (target, giveFocus = true) {
 		// get context of tab container and its children
 		let thisContainer = _closest(target, (el) => {
 			return el.classList.contains(selector.substring(1));
@@ -144,6 +142,7 @@ const Frtabs = (selector = '.js-fr-tabs', {
 		// set inactives
 		siblingTabs.forEach((tab) => {
 			tab.setAttribute('tabindex', -1);
+			tab.classList.remove(activeTabClass);
 		});
 		siblingTabpanels.forEach((tabpanel) => {
 			tabpanel.setAttribute('aria-hidden', 'true');
@@ -151,6 +150,7 @@ const Frtabs = (selector = '.js-fr-tabs', {
 
 		// set actives and focus
 		target.setAttribute('tabindex', 0);
+		target.classList.add(activeTabClass);
 		if (giveFocus) target.focus();
 		doc.getElementById(target.getAttribute('aria-controls')).removeAttribute('aria-hidden');
 	}
@@ -183,7 +183,7 @@ const Frtabs = (selector = '.js-fr-tabs', {
 
 
 	// INIT
-	function _init () {
+	function init () {
 		if (tabContainers.length) {
 			_addA11y();
 			_bindTabsEvents();
@@ -194,11 +194,12 @@ const Frtabs = (selector = '.js-fr-tabs', {
 			docEl.classList.add(tabsReadyClass);
 		}
 	}
-	_init();
+	init();
 
 
 	// REVEAL API
 	return {
+		init,
 		destroy
 	}
 

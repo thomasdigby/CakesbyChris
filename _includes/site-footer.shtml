@@ -1,13 +1,21 @@
 <footer class="site-footer">
+	<ul class="list-social">
+		<li class="list-social__list-item">
+			<a class="list-social__item list-social__item--facebook" href="/">Facebook</a>
+		</li>
+		<li class="list-social__list-item">
+			<a class="list-social__item list-social__item--instagram" href="/">Instagram</a>
+		</li>
+	</ul>
 	<ul class="list-divider list-divider--reverse">
 		<li class="list-divider__list-item">
 			<a class="list-divider__item" href="/">Home</a>
 		</li>
 		<li class="list-divider__list-item">
-			<a class="list-divider__item" href="/">About</a>
+			<a class="list-divider__item" href="/about/">About</a>
 		</li>
 		<li class="list-divider__list-item">
-			<a class="list-divider__item" href="/">Cakes</a>
+			<a class="list-divider__item" href="/cakes/">Cakes</a>
 		</li>
 	</ul>
 	<ul class="list-divider list-divider--reverse">
@@ -15,7 +23,7 @@
 			&copy; All photography Chris Dance 2016
 		</li>
 		<li class="list-divider__list-item">
-			Site designed by Tom Dance
+			Site designed by <a class="link-standard link-standard--on-mid-grey" href="http://www.tomdance.co.uk/">Tom Dance</a>
 		</li>
 	</ul>
 </footer>

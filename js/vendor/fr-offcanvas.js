@@ -5,12 +5,15 @@
  * @param {string} toggleSelector 	Button with which to toggle the off-canvas state
  * @param {object} options			Object containing config overrides
  */
-const Froffcanvas = function(
-		panelSelector = '.js-fr-offcanvas',
-		toggleSelector = '.js-fr-offcanvas-toggle',
+const FrOffcanvas = function(
+		selector = '.js-fr-offcanvas',
 		{
-			activePanelClass: activePanelClass = 'fr-offcanvas--is-active',
-			readyClass: readyClass = 'has-fr-offcanvas'
+			openSelector = openSelector = '.js-fr-offcanvas-open',
+			closeSelector = closeSelector = '.js-fr-offcanvas-close',
+			toggleSelector = toggleSelector = '.js-fr-offcanvas-toggle',
+			readyClass: readyClass = 'has-fr-offcanvas',
+			activeClass: activeClass = 'fr-offcanvas-is-active',
+			panelActiveClass: panelActiveClass = 'fr-offcanvas--is-active'
 		} = {}
 	) {
 
@@ -18,15 +21,24 @@ const Froffcanvas = function(
 	//	CONSTANTS
 	const doc = document;
 	const docEl = doc.documentElement;
+	const transitionEventSyntax = {
+		transition: 'transitionend',
+		WebkitTransition: 'webkitTransitionEnd',
+		MozTransition: 'transitionend',
+		OTransition: 'oTransitionEnd otransitionend'
+	};
 
 
 	//	SUPPORTS
-	if (!'querySelector' in document || !'addEventListener' in window || !docEl.classList) return;
+	if (!'querySelector' in doc || !'addEventListener' in window || !docEl.classList) return;
 
 
 	//	SETUP
-	let panel = doc.querySelector(panelSelector);
-	let toggle = doc.querySelector(toggleSelector);
+	let panel = doc.querySelector(selector);
+	let buttonOpen = doc.querySelector(openSelector);
+	let buttonClose = doc.querySelector(closeSelector);
+	let buttonToggle = doc.querySelector(toggleSelector);
+	let transitionEventName = 'transitionend';
 
 
 	//	UTILS
@@ -37,6 +49,15 @@ const Froffcanvas = function(
 	function _closest (el, fn) {
 		// closest: http://clubmate.fi/jquerys-closest-function-and-pure-javascript-alternatives/
 		return el && (fn(el) ? el : _closest(el.parentNode, fn));
+	}
+
+
+	//	Cross-browser
+	function _setTransitionEventPrefix () {
+		//	loop through prefixes and return relevant event
+		for (var prefix in transitionEventSyntax) {
+			if (panel.style[prefix] !== undefined) return transitionEventSyntax[prefix];
+		}
 	}
 
 
@@ -52,7 +73,7 @@ const Froffcanvas = function(
 
 
 	//	Events
-	function _eventPointer () {
+	function _eventTogglePointer () {
 		let panelHidden = panel.getAttribute('aria-hidden') === 'true';
 		if (panelHidden) {
 			_showPanel();
@@ -60,11 +81,17 @@ const Froffcanvas = function(
 			_hidePanel();
 		}
 	}
+	function _eventOpenPointer () {
+		_showPanel();
+	}
+	function _eventClosePointer () {
+		_hidePanel();
+	}
 	function _eventDocClick (e) {
 		//	check if target is panel or child of
 		let isPanel = e.target == panel;
 		let isPanelChild = _closest(e.target, (el) => {
-			if (el != doc) return el.classList.contains(panelSelector.substring(1));
+			if (el != doc) return el.classList.contains(selector.substring(1));
 		});
 		if (!isPanel && !isPanelChild) _hidePanel();
 	}
@@ -72,11 +99,23 @@ const Froffcanvas = function(
 		//	esc key
 		if (e.keyCode === 27) _hidePanel();
 	}
+	function _eventTransitionEnd (e) {
+		//	set visibilty property to remove keyboard access
+		panel.style.visibility = 'hidden';
+		//	transition event not needed
+		_unbindTransitionEnd();
+	}
 
 
 	//	Bindings
-	function _bindPointer () {
-		toggle.addEventListener('click', _eventPointer);
+	function _bindTogglePointer () {
+		if (!!buttonToggle) buttonToggle.addEventListener('click', _eventTogglePointer);
+	}
+	function _bindOpenPointer () {
+		if (!!buttonOpen) buttonOpen.addEventListener('click', _eventOpenPointer);
+	}
+	function _bindClosePointer () {
+		if (!!buttonClose) buttonClose.addEventListener('click', _eventClosePointer);
 	}
 	function _bindDocClick () {
 		doc.addEventListener('click', _eventDocClick);
@@ -84,10 +123,13 @@ const Froffcanvas = function(
 	function _bindDocKey () {
 		doc.addEventListener('keydown', _eventDocKey);
 	}
+	function _bindTransitionEnd () {
+		panel.addEventListener(transitionEventName, _eventTransitionEnd);
+	}
 
 	//	Unbind
 	function _unbindPointer () {
-		toggle.removeEventListener('click', _eventPointer);
+		buttonToggle.removeEventListener('click', _eventPointer);
 	}
 	function _unbindDocClick () {
 		doc.removeEventListener('click', _eventDocClick);
@@ -95,30 +137,41 @@ const Froffcanvas = function(
 	function _unbindDocKey () {
 		doc.removeEventListener('keydown', _eventDocKey);
 	}
+	function _unbindTransitionEnd () {
+		panel.removeEventListener(transitionEventName, _eventTransitionEnd);
+	}
 
 
 	//	Actions
 	function _showPanel () {
+		//	set visibility to override any previous set style
+		panel.style.visibility = 'visible';
 		//	remove aria-hidden, add focus
 		panel.setAttribute('aria-hidden', false);
-		panel.setAttribute('tabindex', 0);
+		panel.setAttribute('tabindex', -1);
 		panel.focus();
 		//	bind document close events
 		_defer(_bindDocClick); // this isn't working for enter, works for space though. WTF.
 		_defer(_bindDocKey);
+		//	reset scroll position
+		panel.scrollTop = 0;
 		//	add active class
-		panel.classList.add(activePanelClass);
+		panel.classList.add(panelActiveClass);
+		docEl.classList.add(activeClass);
 	}
 	function _hidePanel () {
 		//	add aria-hidden, remove focus
 		panel.setAttribute('aria-hidden', true);
-		panel.setAttribute('tabindex', -1);
+		panel.removeAttribute('tabindex');
 		panel.blur();
+		//	bind transition end
+		_bindTransitionEnd();
 		//	unbind document events
 		_unbindDocKey();
 		_unbindDocClick();
 		//	remove active class
-		panel.classList.remove(activePanelClass);
+		panel.classList.remove(panelActiveClass);
+		docEl.classList.remove(activeClass);
 	}
 	function destroy () {
 		//	remove attributes
@@ -133,22 +186,32 @@ const Froffcanvas = function(
 
 
 	//	INIT
-	function _init () {
+	function init () {
 		if (panel) {
+			//	detect required properties
+			_setTransitionEventPrefix();
+			//	set a11y DOM properties
 			_addA11y();
-			_bindPointer();
+			//	set visibilty property to remove keyboard access
+			panel.style.visibility = 'hidden';
+			//	bind button events
+			_bindTogglePointer();
+			_bindOpenPointer();
+			_bindClosePointer();
+			//	set ready class
 			docEl.classList.add(readyClass);
 		}
 	}
-	_init();
+	init();
 
 
 	// REVEAL API
 	return {
+		init,
 		destroy
 	}
 }
 
 
 // module exports
-export default Froffcanvas;
+export default FrOffcanvas;

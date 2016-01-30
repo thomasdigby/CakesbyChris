@@ -1,0 +1,39 @@
+
+//	LINKS
+//----------------------------------------------------------------------
+
+//	 link
+.link-standard {
+	@include underline($mid-grey, #fff, 1.125em, 2px);
+	color: $mid-grey;
+	text-decoration: none;
+}
+.link-standard--on-light-grey {
+	@include underline($mid-grey, $lightest-grey, 1.125em, 2px);
+}
+.link-standard--on-mid-grey {
+	@include underline(#fff, $mid-grey, 1.125em, 2px);
+	color: #fff;
+}
+
+//	button
+.button-standard {
+	border-radius: 1px;
+	border: 2px solid $dark-grey;
+	color: $dark-grey;
+	display: inline-block;
+	font-size: 1rem; /* 16px */
+	font-weight: bold;
+	line-height: 1.25; /* 20px */
+	padding: 0.625rem 1rem; /* 10px 16px */
+	text-decoration: none;
+	transition: box-shadow $duration $easing;
+}
+.button-standard--reverse {
+	border-color: #fff;
+	color: #fff;
+}
+.button-standard--reverse:hover,
+.button-standard--reverse:focus {
+	box-shadow: inset 0 0 0 2px #fff;
+}

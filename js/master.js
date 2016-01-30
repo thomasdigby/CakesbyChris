@@ -11,5 +11,7 @@ var ClientSettings = {
 	bpDesk: 900
 };
 
-new FrOffcanvas('.js-offcanvas-panel', '.js-offcanvas-toggle');
+new FrOffcanvas('.js-offcanvas-panel', {
+	toggleSelector: '.js-offcanvas-toggle'
+});
 new FrTabs();

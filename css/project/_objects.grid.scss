@@ -5,10 +5,40 @@
 .wrapper {
 	height: 100%;
 	margin: 0 auto;
-	max-width: 950px;
+	max-width: 990px;
 	padding: 0 20px;
 	width: 100%;
 }
 .wrapper--narrow {
 	max-width: 625px;
+}
+
+//	Grid
+.grid {
+	font-size: 0;
+	margin-left: -1.25rem;
+	/* clear */
+	&::after {
+		clear: both;
+		content: '';
+		display: table;
+	}
+
+}
+
+//	Columns
+.grid__col {
+	display: inline-block;
+	font-size: 1rem; /* 16px */
+	padding-left: 1.25rem;
+	text-align: left;
+	vertical-align: top;
+	width: 100%;
+}
+
+//	Lap
+@include mq($lap) {
+	.col-lap--1-2 {
+		width: 50%;
+	}
 }
