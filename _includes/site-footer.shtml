@@ -17,6 +17,18 @@
 		<li class="list-divider__list-item">
 			<a class="list-divider__item" href="/cakes/">Cakes</a>
 		</li>
+		<li class="list-divider__list-item">
+			<a class="list-divider__item" href="/about/">About</a>
+		</li>
+		<li class="list-divider__list-item">
+			<a class="list-divider__item" href="/guide/">Guide</a>
+		</li>
+		<li class="list-divider__list-item">
+			<a class="list-divider__item" href="/faq/">FAQ</a>
+		</li>
+		<li class="list-divider__list-item">
+			<a class="list-divider__item" href="/contact/">Contact</a>
+		</li>
 	</ul>
 	<ul class="list-divider list-divider--reverse">
 		<li class="list-divider__list-item">

@@ -460,6 +460,36 @@ body {
   .col-lap--1-2 {
     width: 50%; } }
 
+/* Container */
+.fr-accordion {
+  border-bottom: 1px solid #333; }
+
+/* Accordion header */
+.has-fr-accordion .fr-accordion__header {
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg%20xmlns%3D"http%3A//www.w3.org/2000/svg"%20width%3D"30"%20height%3D"20"%20viewBox%3D"0%200%2030%2020"><g%20stroke%3D"%23EC008C"%20stroke-width%3D"2"%20stroke-linecap%3D"round"%20stroke-linejoin%3D"round"%20stroke-miterlimit%3D"10"%20fill%3D"none"><path%20d%3D"M10%2019v-18M19%2010h-18"/></g></svg>');
+  background-position: center right;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 20px;
+  padding: 16px 5px;
+  border-top: 1px solid #333;
+  outline: none;
+  transition: background-color 150ms ease-out; }
+  .has-fr-accordion .fr-accordion__header:hover, .has-fr-accordion .fr-accordion__header:focus {
+    background-color: #e4e4e4; }
+  .has-fr-accordion .fr-accordion__header[aria-expanded="true"] {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg%20xmlns%3D"http%3A//www.w3.org/2000/svg"%20width%3D"30"%20height%3D"2"%20viewBox%3D"0%200%2030%202"><path%20stroke%3D"%23EC008C"%20stroke-width%3D"2"%20stroke-linecap%3D"round"%20stroke-linejoin%3D"round"%20stroke-miterlimit%3D"10"%20fill%3D"none"%20d%3D"M19%201h-18"/></svg>'); }
+
+/* Accordion panel */
+.fr-accordion__panel[aria-hidden="true"] {
+  display: none; }
+
+.fr-accordion__panel {
+  padding: 16px 5px; }
+  .fr-accordion__panel > * {
+    outline: none; }
+
 .link-standard {
   background-image: linear-gradient(to left, #444444 50%, #444444 50%);
   background-position: 0 1.125em;
@@ -511,6 +541,7 @@ body {
   display: flex;
   list-style: none;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 1rem; }
 
 .list-divider__list-item {
@@ -556,8 +587,8 @@ body {
 .list-buttons__item {
   border-radius: 50%;
   display: block;
-  height: 63px;
-  width: 63px; }
+  height: 55px;
+  width: 55px; }
 
 .list-buttons__list-item:not(:last-child) {
   margin-right: 12px; }
@@ -648,7 +679,6 @@ body {
     outline: none; }
 
 .section--large {
-  color: #fff;
   height: 710px;
   max-height: 70vh;
   padding-top: 15vh; }
@@ -665,6 +695,9 @@ body {
 
 .section--light {
   background-color: #fff; }
+
+.section--image {
+  color: #fff; }
 
 img {
   margin-bottom: 10px; }
@@ -733,7 +766,6 @@ thead tr:first-child th {
 
 .text-large {
   font-size: 46px;
-  font-weight: bold;
   line-height: 52px; }
 
 .text-large--spaced {
@@ -772,6 +804,7 @@ thead tr:first-child th {
   word-break: break-word; }
 
 .module img {
+  backface-visibility: hidden;
   transition: opacity 150ms ease-out;
   margin-bottom: 0; }
 

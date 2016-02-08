@@ -54,22 +54,30 @@
 
 	var _frTabs2 = _interopRequireDefault(_frTabs);
 
+	var _frAccordion = __webpack_require__(3);
+
+	var _frAccordion2 = _interopRequireDefault(_frAccordion);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//	Set client specific settings
-
-	//	MASTER JS
-	//----------------------------------------------------------------------
-
 	var ClientSettings = {
 		bpLap: 600,
 		bpDesk: 900
 	};
+	//	MASTER JS
+	//----------------------------------------------------------------------
 
 	new _frOffcanvas2.default('.js-offcanvas-panel', {
 		toggleSelector: '.js-offcanvas-toggle'
 	});
 	new _frTabs2.default();
+	new _frAccordion2.default({
+		firstPanelsOpenByDefault: false,
+		multiselectable: false
+	});
+
+	console.log();
 
 /***/ },
 /* 1 */
@@ -505,6 +513,282 @@
 
 	// module exports
 	exports.default = Frtabs;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// Set Array prototype on NodeList (allows for Array methods on NodeLists)
+	// https://gist.github.com/paulirish/12fb951a8b893a454b32 (#gistcomment-1487315)
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	Object.setPrototypeOf(NodeList.prototype, Array.prototype);
+
+	/**
+	 * @param {object} options Object containing configuration overrides
+	 */
+	var Fraccordion = function Fraccordion() {
+		var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+		var _ref$selector = _ref.selector;
+		var selector = _ref$selector === undefined ? '.js-fr-accordion' : _ref$selector;
+		var _ref$headerSelector = _ref.headerSelector;
+		var headerSelector = _ref$headerSelector === undefined ? '.fr-accordion__header' : _ref$headerSelector;
+		var _ref$headerIdPrefix = _ref.headerIdPrefix;
+		var headerIdPrefix = _ref$headerIdPrefix === undefined ? 'accordion-header' : _ref$headerIdPrefix;
+		var _ref$panelSelector = _ref.panelSelector;
+		var panelSelector = _ref$panelSelector === undefined ? '.fr-accordion__panel' : _ref$panelSelector;
+		var _ref$panelIdPrefix = _ref.panelIdPrefix;
+		var panelIdPrefix = _ref$panelIdPrefix === undefined ? 'accordion-panel' : _ref$panelIdPrefix;
+		var _ref$firstPanelsOpenB = _ref.firstPanelsOpenByDefault;
+		var firstPanelsOpenByDefault = _ref$firstPanelsOpenB === undefined ? true : _ref$firstPanelsOpenB;
+		var _ref$multiselectable = _ref.multiselectable;
+		var multiselectable = _ref$multiselectable === undefined ? true : _ref$multiselectable;
+		var _ref$readyClass = _ref.readyClass;
+		var readyClass = _ref$readyClass === undefined ? 'has-fr-accordion' : _ref$readyClass;
+
+		// CONSTANTS
+		var doc = document;
+		var docEl = doc.documentElement;
+
+		// SUPPORTS
+		if (!('querySelector' in doc) || !('addEventListener' in window) || !docEl.classList) return;
+
+		// SETUP
+		// set accordion element NodeLists
+		var accordionContainers = doc.querySelectorAll(selector);
+		var accordionHeaders = doc.querySelectorAll(headerSelector);
+		var accordionPanels = doc.querySelectorAll(panelSelector);
+
+		// UTILS
+		// closest: http://clubmate.fi/jquerys-closest-function-and-pure-javascript-alternatives/
+		function _closest(el, fn) {
+			return el && (fn(el) ? el : _closest(el.parentNode, fn));
+		}
+
+		// A11Y
+		function _addA11y() {
+			// add role="tablist" to containers
+			accordionContainers.forEach(function (accordion) {
+				accordion.setAttribute('role', 'tablist');
+				// set multiselectable attribute (define support for multiple panels open at once)
+				accordion.setAttribute('aria-multiselectable', multiselectable);
+			});
+
+			// add role="tab" and aria-controls to headers
+			accordionHeaders.forEach(function (accordionHeader) {
+				accordionHeader.setAttribute('role', 'tab');
+				accordionHeader.setAttribute('aria-controls', accordionHeader.id.replace(headerIdPrefix, panelIdPrefix));
+				// make headers focusable, this is preferred over wrapping contents in native button element
+				accordionHeader.setAttribute('tabindex', 0);
+			});
+
+			// add role="tabpanel" to panels
+			accordionPanels.forEach(function (accordionPanel) {
+				accordionPanel.setAttribute('role', 'tabpanel');
+				accordionPanel.setAttribute('aria-labelledby', accordionPanel.id.replace(panelIdPrefix, headerIdPrefix));
+				// make first child of tabpanel focusable if available
+				if (accordionPanel.children) {
+					accordionPanel.children[0].setAttribute('tabindex', 0);
+				}
+			});
+		}
+
+		function _removeA11y() {
+			// remove role="tablist" from containers
+			accordionContainers.forEach(function (accordion) {
+				accordion.removeAttribute('role');
+				// remove multiselectable attribute
+				accordion.removeAttribute('aria-multiselectable');
+			});
+
+			// remove role="tab" and aria-controls from headers
+			accordionHeaders.forEach(function (accordionHeader) {
+				accordionHeader.removeAttribute('role');
+				accordionHeader.removeAttribute('aria-controls');
+				accordionHeader.removeAttribute('aria-selected');
+				accordionHeader.removeAttribute('aria-expanded');
+				// remove headers focusablility
+				accordionHeader.removeAttribute('tabindex');
+			});
+
+			// remove role="tabpanel" from panels
+			accordionPanels.forEach(function (accordionPanel) {
+				accordionPanel.removeAttribute('role');
+				accordionPanel.removeAttribute('aria-labelledby');
+				accordionPanel.removeAttribute('aria-hidden');
+				// remove first child of tabpanel focusablibility
+				if (accordionPanel.children) {
+					accordionPanel.children[0].removeAttribute('tabindex');
+				}
+			});
+		}
+
+		// ACTIONS
+		function _hideAllPanels(accordionContainer) {
+			var siblingHeaders = accordionContainer.querySelectorAll(headerSelector);
+			var siblingPanels = accordionContainer.querySelectorAll(panelSelector);
+
+			// set inactives
+			siblingHeaders.forEach(function (header) {
+				header.setAttribute('tabindex', -1);
+				header.setAttribute('aria-selected', 'false');
+				header.setAttribute('aria-expanded', 'false');
+			});
+			siblingPanels.forEach(function (panel) {
+				panel.setAttribute('aria-hidden', 'true');
+			});
+		}
+
+		function _hidePanel(target) {
+			var activePanel = doc.getElementById(target.getAttribute('aria-controls'));
+
+			target.setAttribute('aria-selected', 'false');
+			target.setAttribute('aria-expanded', 'false');
+			activePanel.setAttribute('aria-hidden', 'true');
+		}
+
+		function _showPanel(target) {
+			var activePanel = doc.getElementById(target.getAttribute('aria-controls'));
+
+			// set actives
+			target.setAttribute('tabindex', 0);
+			target.setAttribute('aria-selected', 'true');
+			target.setAttribute('aria-expanded', 'true');
+			activePanel.setAttribute('aria-hidden', 'false');
+		}
+
+		function _togglePanel(target) {
+			// close target panel if already active
+			if (target.getAttribute('aria-selected') === 'true') {
+				_hidePanel(target);
+				return;
+			}
+			// if not multiselectable hide all, then show target
+			if (!multiselectable) {
+				// get context of accordion container and its children
+				var thisContainer = _closest(target, function (el) {
+					return el.classList.contains(selector.substring(1));
+				});
+				_hideAllPanels(thisContainer);
+			}
+			_showPanel(target);
+		}
+
+		function _giveHeaderFocus(headerSet, i) {
+			// remove focusability from inactives
+			headerSet.forEach(function (header) {
+				header.setAttribute('tabindex', -1);
+			});
+			// set active focus
+			headerSet[i].setAttribute('tabindex', 0);
+			headerSet[i].focus();
+		}
+
+		// EVENTS
+		function _eventHeaderClick(e) {
+			_togglePanel(e.target);
+		}
+
+		function _eventHeaderKeydown(e) {
+			// collect header targets, and their prev/next
+			var currentHeader = e.target;
+			// get context of accordion container and its children
+			var thisContainer = _closest(currentHeader, function (el) {
+				return el.classList.contains(selector.substring(1));
+			});
+			var theseHeaders = thisContainer.querySelectorAll(headerSelector);
+			var currentHeaderIndex = theseHeaders.indexOf(currentHeader);
+
+			// catch enter/space, left/right and up/down arrow key events
+			// if new panel show it, if next/prev move focus
+			switch (e.keyCode) {
+				case 13:
+				case 32:
+					_togglePanel(currentHeader);
+					e.preventDefault();
+					break;
+				case 37:
+				case 38:
+					var previousHeaderIndex = currentHeaderIndex === 0 ? theseHeaders.length - 1 : currentHeaderIndex - 1;
+					_giveHeaderFocus(theseHeaders, previousHeaderIndex);
+					e.preventDefault();
+					break;
+				case 39:
+				case 40:
+					var nextHeaderIndex = currentHeaderIndex < theseHeaders.length - 1 ? currentHeaderIndex + 1 : 0;
+					_giveHeaderFocus(theseHeaders, nextHeaderIndex);
+					e.preventDefault();
+					break;
+				default:
+					break;
+			}
+		}
+
+		// BINDINGS
+		function _bindAccordionEvents() {
+			// bind all accordion header click and keydown events
+			accordionHeaders.forEach(function (accordionHeader) {
+				accordionHeader.addEventListener('click', _eventHeaderClick);
+				accordionHeader.addEventListener('keydown', _eventHeaderKeydown);
+			});
+		}
+
+		function _unbindAccordionEvents() {
+			// unbind all accordion header click and keydown events
+			accordionHeaders.forEach(function (accordionHeader) {
+				accordionHeader.removeEventListener('click', _eventHeaderClick);
+				accordionHeader.removeEventListener('keydown', _eventHeaderKeydown);
+			});
+		}
+
+		// DESTROY
+		function destroy() {
+			_removeA11y();
+			_unbindAccordionEvents();
+			docEl.classList.remove(readyClass);
+		}
+
+		// INIT
+		function init() {
+			if (accordionContainers.length) {
+				_addA11y();
+				_bindAccordionEvents();
+
+				// hide all panels
+				accordionContainers.forEach(function (accordionContainer) {
+					_hideAllPanels(accordionContainer);
+				});
+				// set all first accordion panels active on init if required (default behaviour)
+				// otherwise make sure first accordion header for each is focusable
+				if (firstPanelsOpenByDefault) {
+					accordionContainers.forEach(function (accordionContainer) {
+						_togglePanel(accordionContainer.querySelector(headerSelector));
+					});
+				} else {
+					accordionContainers.forEach(function (accordionContainer) {
+						accordionContainer.querySelector(headerSelector).setAttribute('tabindex', 0);
+					});
+				}
+
+				docEl.classList.add(readyClass);
+			}
+		}
+		init();
+
+		// REVEAL API
+		return {
+			init: init,
+			destroy: destroy
+		};
+	};
+
+	// module exports
+	exports.default = Fraccordion;
 
 /***/ }
 /******/ ]);

@@ -1,0 +1,22 @@
+<ul class="list-buttons">
+	<li class="list-buttons__list-item">
+		<a class="list-buttons__item list-buttons__item--birthday-cake" href="/cakes/celebration/">
+			Celebration cakes
+		</a>
+	</li>
+	<li class="list-buttons__list-item">
+		<a class="list-buttons__item list-buttons__item--wedding-cake" href="/cakes/wedding/">
+			Wedding
+		</a>
+	</li>
+	<li class="list-buttons__list-item">
+		<a class="list-buttons__item list-buttons__item--biscuit" href="/cakes/cookies/">
+			Cookies
+		</a>
+	</li>
+	<li class="list-buttons__list-item">
+		<a class="list-buttons__item list-buttons__item--cupcake" href="/cakes/cupcakes/">
+			Cupcakes
+		</a>
+	</li>
+</ul>

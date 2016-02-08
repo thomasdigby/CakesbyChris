@@ -2,3 +2,7 @@
 *.css.map
 node_modules/
 npm-debug.log
+.DS_STORE
+__.DS_Store
+__index.html
+_DS_Store
