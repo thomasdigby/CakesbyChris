@@ -596,10 +596,12 @@ body {
 .list-buttons__item {
   background-repeat: no-repeat;
   background-position: center center;
-  transition: background-color 150ms ease-out; }
-  .list-buttons__item:hover, .list-buttons__item:focus {
+  transition: background-color 150ms ease-out, opacity 150ms ease-out; }
+  .list-buttons__item:hover {
+    background-color: #f6e8f9;
+    outline: none;
     opacity: 0.5; }
-  .list-buttons__item.fr-tabs__tab--is-active {
+  .list-buttons__item.is-active, .list-buttons__item.fr-tabs__tab--is-active {
     background-color: #f6e8f9;
     outline: none; }
 

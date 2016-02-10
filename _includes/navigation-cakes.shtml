@@ -1,4 +1,4 @@
-<ul class="list-buttons">
+<ul class="list-buttons js-cake-navigation">
 	<li class="list-buttons__list-item">
 		<a class="list-buttons__item list-buttons__item--birthday-cake" href="/cakes/celebration/">
 			Celebration cakes

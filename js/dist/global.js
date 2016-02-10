@@ -58,15 +58,21 @@
 
 	var _frAccordion2 = _interopRequireDefault(_frAccordion);
 
+	var _navigationPage = __webpack_require__(4);
+
+	var _navigationPage2 = _interopRequireDefault(_navigationPage);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	//	Set client specific settings
+
+	//	MASTER JS
+	//----------------------------------------------------------------------
+
 	var ClientSettings = {
 		bpLap: 600,
 		bpDesk: 900
 	};
-	//	MASTER JS
-	//----------------------------------------------------------------------
 
 	new _frOffcanvas2.default('.js-offcanvas-panel', {
 		toggleSelector: '.js-offcanvas-toggle'
@@ -76,8 +82,7 @@
 		firstPanelsOpenByDefault: false,
 		multiselectable: false
 	});
-
-	console.log();
+	(0, _navigationPage2.default)();
 
 /***/ },
 /* 1 */
@@ -789,6 +794,49 @@
 
 	// module exports
 	exports.default = Fraccordion;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	NodeList.prototype.forEach = Array.prototype.forEach;
+
+	var Navigation = function Navigation() {
+
+		var selector = document.querySelectorAll('.js-cake-navigation a');
+		var classActive = 'is-active';
+
+		function init() {
+			var page = getPage();
+			if (page.parents.includes('cakes')) updateNav(page);
+		}
+
+		function updateNav(page) {
+			var navItem = undefined;
+			selector.forEach(function (item) {
+				if (item.getAttribute('href').includes(page.page)) navItem = item;
+			});
+			navItem.classList.add(classActive);
+		}
+
+		function getPage() {
+			var pathArr = window.location.pathname.split('/').filter(Boolean);
+			return {
+				page: pathArr[pathArr.length - 1],
+				parents: pathArr
+			};
+		}
+
+		init();
+	};
+
+	exports.default = Navigation;
 
 /***/ }
 /******/ ]);

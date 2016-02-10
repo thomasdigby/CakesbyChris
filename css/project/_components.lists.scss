@@ -69,11 +69,13 @@
 .list-buttons__item {
 	background-repeat: no-repeat;
 	background-position: center center;
-	transition: background-color $duration $easing;
-	&:hover,
-	&:focus {
+	transition: background-color $duration $easing, opacity $duration $easing;
+	&:hover {
+		background-color: $secondary;
+		outline: none;
 		opacity: 0.5;
 	}
+	&.is-active,
 	&.fr-tabs__tab--is-active {
 		background-color: $secondary;
 		outline: none;
