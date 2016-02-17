@@ -40,7 +40,7 @@
 	</ul>
 </footer>
 <script>
-	loadJS('/js/dist/global.js');
+	loadJS('/js/dist/global.min.js');
 </script>
 <!-- Google Analytics -->
 <!-- <script>
