@@ -814,13 +814,13 @@
 
 		function init() {
 			var page = getPage();
-			if (page.parents.includes('cakes')) updateNav(page);
+			if (page.parents.indexOf('cakes') > -1) updateNav(page);
 		}
 
 		function updateNav(page) {
 			var navItem = undefined;
 			selector.forEach(function (item) {
-				if (item.getAttribute('href').includes(page.page)) navItem = item;
+				if (item.getAttribute('href').indexOf(page.page) > -1) navItem = item;
 			});
 			navItem.classList.add(classActive);
 		}

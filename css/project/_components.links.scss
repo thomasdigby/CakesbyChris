@@ -15,6 +15,9 @@
 	@include underline(#fff, $mid-grey, 1.125em, 2px);
 	color: #fff;
 }
+.link-standard--no-underline {
+	background-image: none;
+}
 
 //	button
 .button-standard {

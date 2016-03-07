@@ -35,7 +35,7 @@
 			&copy; All photography Chris Dance 2016
 		</li>
 		<li class="list-divider__list-item">
-			Site designed by <a class="link-standard link-standard--on-mid-grey" href="http://www.tomdance.co.uk/">Tom Dance</a>
+			Site designed by <a class="link-standard link-standard--on-mid-grey link-standard--no-underline" href="http://www.tomdance.co.uk/">Tom Dance</a>
 		</li>
 	</ul>
 </footer>
